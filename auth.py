@@ -1,13 +1,13 @@
 from flask import Blueprint, request, redirect, render_template, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from forms import *
-from users import *
+from users import User
 
-login = Blueprint('login',__name__)
+auth = Blueprint('auth',__name__)
 
-@login.route('/login', methods=['POST','GET'])
-@login.route('/')
-def loginform():
+auth.route('/')
+auth.route('/login', methods=['POST','GET'])
+def login():
 	title='Login'
 	errmessage = ''
 	form = loginf()
@@ -33,16 +33,15 @@ def loginform():
 				errmessage='User account does not exist'
 	return render_template('login.html', title=title, form=form, errmessage=errmessage)
 
-@login.route('/logout', methods=['GET'])
+auth.route('/logout', methods=['GET'])
 @login_required
 def logout():
 	logout_user()
-	return redirect(url_for('login.loginform'))
+	return redirect(url_for('auth.login'))
 
 
-register = Blueprint('register',__name__)
 
-@register.route('/register', methods=['POST','GET'])
+auth.route('/register', methods=['POST','GET'])
 def registerform():
 	title='Register'
 	errmessage = ''
