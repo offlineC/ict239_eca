@@ -1,7 +1,6 @@
 from flask import Blueprint, request, redirect, render_template, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from __init__ import *
-# from app import db
+from app import db
 
 class STAYCATION(db.Document):
 	# 1) a)
@@ -17,6 +16,20 @@ class STAYCATION(db.Document):
 	image_url = db.StringField(max_length=30)
 	# Creates a description field/column in the collection of staycation with data type as string
 	description = db.StringField(max_length=500)
+
+def getAllHotels():
+	hotels = STAYCATION.objects()
+	return hotels
+
+def getHotelById(id):
+	hotel = STAYCATION.objects(id=id).first()
+	return hotel
+
+def getHotelByHotelName(hname):
+	hotel = STAYCATION.objects()
+	for h in hotel:
+		if h['hotel_name'] == hname:
+			return h
 
 package = Blueprint('package',__name__)
 

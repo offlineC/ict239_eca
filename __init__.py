@@ -13,6 +13,9 @@ def create_app():
 		'host':'localhost'
 	}
 
+	# set upload folder for csv files
+	app.config['UPLOAD_FOLDER'] = 'assets/files'
+
 	app.static_folder = 'assets'
 	# Set db as the reference the established database connection
 	db = MongoEngine(app)
@@ -20,6 +23,7 @@ def create_app():
 	login_manager = LoginManager()
 	login_manager.init_app(app)
 	login_manager.login_view = 'login'
+	
 	return app, db, login_manager
 
 app, db, login_manager = create_app()
