@@ -80,7 +80,7 @@ def uploadform():
 			
 	return render_template('upload.html', title=title,)
 
-# # link to upload page
-# from dashboard import tc
-# app.register_blueprint(tc)
+# link to upload page
+from dashboard import tc
+app.register_blueprint(tc)
 

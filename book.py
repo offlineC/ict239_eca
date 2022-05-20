@@ -4,6 +4,8 @@ from users import *
 from app import db 
 from staycation import *
 from forms import bookForm
+from datetime import datetime as dt
+from datetime import timedelta
 
 class Booking(db.Document):
 	# 1) a)
@@ -21,6 +23,44 @@ class Booking(db.Document):
 	# Calculates the total cost of each package with its own unit_cost multiplied by its own duration. When this method is called, it just returns the value of the total cost.
 	def calculate_total_cost(self):
 		self.total_cost = self.package.duration * self.package.unit_cost
+
+def getAllBookings():
+	bookings = Booking.objects()
+	return bookings
+
+def dataOutput():
+	data = getAllBookings()
+	startDate = dt(2022,1,17)
+	endDate = dt(2022,3,12)
+	hnames = []
+	inData = {}
+	# inData['dates'] = [(startDate+timedelta(x)).date() for x in range((endDate-startDate).days)]
+	inData['hotels'] = []
+
+	for h in data:
+		print(h.package)
+		# if not( h in hnames):
+		# 	hone = h
+		# 	hnames.append(hone)
+
+	# for i in hnames:
+	# 	thisHotel = getHotelByHotelName(i)
+	# 	dates = [str(n['check_in_date']) for n in data if n['hotel_name'] == i]
+	# 	dates.sort()
+	# 	price = thisHotel['unit_cost']*thisHotel['duration']
+	# 	inData['hotels'].append({'name':i, 'price':price, 'dates': dates, 'perDay':[]})
+
+	
+	# for d in inData['hotels']:
+	# 	for ds in d['dates']:
+	# 		dcount = d['dates'].count(ds)
+	# 		dayself = dt.strptime(ds, '%Y-%m-%d')
+	# 		dateDic = {str(ds):dcount}
+	# 		if not(dateDic in d['perDay']):
+	# 			d['perDay'].append(dateDic)
+
+
+	return inData
 
 book = Blueprint('book',__name__)
 
