@@ -1,40 +1,25 @@
 from flask import Flask, render_template, request
+from flask_login import login_user, login_required, logout_user, current_user
 from datetime import datetime, timedelta
 # import db setup
-from __init__ import *
+from app import *
 import csv 
 
-"""
-note:
-pages linked by blueprint are suffixed accordingly 
-form pages:
-<page>form
-eg: 
-@def registerform():
-listing or normal pages:
-<page>page
-eg:
-@def packagepage():
-"""
-
-'''
-pages are linked by Blueprint to make the app modular
-'''
 
 # link to login/registration page
-from app.auth import auth
-app.register_blueprint(auth, name='auth_blue')
+from auth import auth
+app.register_blueprint(auth)
 
 #link to package page
 from staycation import package
-app.register_blueprint(package, name='package_blue')
+app.register_blueprint(package)
 
 # link to individual hotel pages
-from book import hotel
-app.register_blueprint(hotel)
+from book import book
+app.register_blueprint(book)
 
 # upload of files
-import hotel
+import staycation
 import users
 import book
 def createUsers(email, password, name):
@@ -52,7 +37,7 @@ def createBookings(check_in_date, customer, hotel_name):
 	if not(con):
 		Booking(check_in_date=check_in_date, customer=customer, hotel_name=hotel_name).save()
 
-@upload.route('/upload', methods=['POST','GET'])
+@app.route('/upload', methods=['POST','GET'])
 @login_required
 def uploadform():
 	title='Upload'

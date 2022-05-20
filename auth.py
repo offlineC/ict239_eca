@@ -1,16 +1,16 @@
 from flask import Blueprint, request, redirect, render_template, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from forms import *
+from forms import RegForm, LogForm
 from users import User
 
 auth = Blueprint('auth',__name__)
 
-auth.route('/')
-auth.route('/login', methods=['POST','GET'])
+@auth.route('/')
+@auth.route('/login', methods=['POST'])
 def login():
 	title='Login'
 	errmessage = ''
-	form = loginf()
+	form = LogForm()
 	# if user is already logged in, redirect them to the packages page
 	if current_user.is_authenticated:
 		return redirect(url_for('package.packagepage'))
@@ -33,7 +33,7 @@ def login():
 				errmessage='User account does not exist'
 	return render_template('login.html', title=title, form=form, errmessage=errmessage)
 
-auth.route('/logout', methods=['GET'])
+@auth.route('/logout', methods=['GET'])
 @login_required
 def logout():
 	logout_user()
@@ -41,12 +41,12 @@ def logout():
 
 
 
-auth.route('/register', methods=['POST','GET'])
+@auth.route('/register', methods=['POST'])
 def registerform():
 	title='Register'
 	errmessage = ''
 	scmessage = ''
-	form = registerf()
+	form = RegForm()
 	# if user is already logged in, redirect them to the packages page
 	if current_user.is_authenticated:
 		return redirect(url_for('package.packagepage'))

@@ -1,6 +1,8 @@
+from flask import Blueprint, request, redirect, render_template, url_for
+from flask_login import login_user, login_required, logout_user, current_user
 from users import User
+from app import db 
 from staycation import STAYCATION
-from app import db
 
 class Booking(db.Document):
 	# 1) a)
@@ -19,9 +21,9 @@ class Booking(db.Document):
 	def calculate_total_cost(self):
 		self.total_cost = self.package.duration * self.package.unit_cost
 
-hotel = Blueprint('hotel',__name__)
+book = Blueprint('book',__name__)
 
-@hotel.route('/hotel/<id>', methods=['POST','GET'])
+@book.route('/hotel/<id>', methods=['POST','GET'])
 @login_required
 def hotelform(id:str):
 	thisHotel = getHotelById(id)

@@ -16,10 +16,10 @@ def create_app():
 	app.static_folder = 'assets'
 	# Set db as the reference the established database connection
 	db = MongoEngine(app)
-	app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
+	# app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
 	login_manager = LoginManager()
 	login_manager.init_app(app)
-	login_manager.login_view = 'login'
+	login_manager.login_view = 'auth.login'
 	return app, db, login_manager
 
 app, db, login_manager = create_app()
