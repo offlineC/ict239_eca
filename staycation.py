@@ -25,6 +25,10 @@ def getHotelById(id):
 	hotel = STAYCATION.objects(id=id).first()
 	return hotel
 
+def getHotelDataById(id):
+	hotel = STAYCATION.objects(id=id).first()
+	return hotel._data
+
 def getHotelByHotelName(hname):
 	hotel = STAYCATION.objects()
 	for h in hotel:

@@ -1,8 +1,9 @@
 from flask import Blueprint, request, redirect, render_template, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from users import User
+from users import *
 from app import db 
-from staycation import STAYCATION
+from staycation import *
+from forms import bookForm
 
 class Booking(db.Document):
 	# 1) a)
@@ -27,9 +28,10 @@ book = Blueprint('book',__name__)
 @login_required
 def hotelform(id:str):
 	thisHotel = getHotelById(id)
-	customer = current_user.name
-	hotel = thisHotel.hotel_name
-	form = bookingf(customer=customer,hotel_name=hotel)
+	customer = getUserDataById(current_user.id)
+	package = getHotelDataById(id)
+	total_cost = package['unit_cost'] * package['duration']
+	form = bookForm()
 	scmessage = ''
 	title = thisHotel.hotel_name
 	if request.method == 'GET':
@@ -38,8 +40,8 @@ def hotelform(id:str):
 		scmessage = 'Booking failed'
 		if form.validate():
 			cid = form.check_in_date.data
-			booking = Booking(check_in_date=cid, customer=customer, hotel_name=hotel).save()
-			scmessage = 'Booking successful' + str(cid) + customer + hotel
+			booking = Booking(check_in_date=cid, customer=customer, package=package, total_cost = total_cost).save()
+			scmessage = 'Booking successful' + str(cid) + str(customer) +str(package)
 		else:
 			scmessage='Unable to validate'
 	

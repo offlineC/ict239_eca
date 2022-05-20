@@ -1,4 +1,4 @@
-{% from '__render_field.html' import temp_input %}
+{% from '__render_field.html' import render_field %}
 {% extends 'base.html' %}
 {% block content %}
 <!-- 1) c) iii) -->
@@ -21,8 +21,7 @@
                 <h3>Select This Offer</h3>
             </div>
             <div class="card-body">
-                <h4>Check_in_date</h4>
-                {{ temp_input(form.check_in_date, type="date", id="check_in_date") }}
+                {{ render_field(form.check_in_date, type="date", id="check_in_date") }}
                 {{ form.hidden_tag() }}
                 <button class="btn btn-primary">Submit</button>
             </div>

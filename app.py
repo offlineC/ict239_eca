@@ -18,9 +18,9 @@ app.register_blueprint(auth)
 from staycation import package
 app.register_blueprint(package)
 
-# # link to individual hotel pages
-# from book import book
-# app.register_blueprint(book)
+# link to individual hotel pages
+from book import book
+app.register_blueprint(book)
 
 # upload of files
 def createUsers(email, password, name):
