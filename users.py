@@ -1,5 +1,4 @@
-from __init__ import *
-# from app import db
+from app import db, login_manager
 from flask_login import UserMixin
 
 class User(UserMixin, db.Document):
