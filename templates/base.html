@@ -27,7 +27,7 @@
             <li><a href="/login"><span><i class="fa fa-user" aria-hidden="true"></i></span> <span>Login</span></a></li>
             <li><a href="/register"><span><i class="fa fa-home" aria-hidden="true"></i></span> <span>Register</span></a></li>
             {% elif isLoggedIn %}
-            <li><a href="/package"><span><i class="fa fa-id-card" aria-hidden="true"></i></span><span>Packages</span></a></li>
+            <li><a href="/packages"><span><i class="fa fa-id-card" aria-hidden="true"></i></span><span>Packages</span></a></li>
             {# show only when admin is logged in #}
             {% if current_user.name.lower() == 'admin' %}
             <li><a href="/trend_chart"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Dashboard</span></a></li>
