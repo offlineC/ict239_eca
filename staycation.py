@@ -41,7 +41,7 @@ def getHotelByHotelName(hname):
 
 package = Blueprint('package',__name__)
 
-@package.route('/package', methods=['GET'])
+@package.route('/packages', methods=['GET'])
 # set page to be accessble after login only
 @login_required
 def packagepage():

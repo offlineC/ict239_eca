@@ -24,7 +24,7 @@ class Booking(db.Document):
 
 book = Blueprint('book',__name__)
 
-@book.route('/hotel/<id>', methods=['POST','GET'])
+@book.route('/booking/<id>', methods=['POST','GET'])
 @login_required
 def hotelform(id:str):
 	thisHotel = getHotelById(id)
@@ -45,4 +45,4 @@ def hotelform(id:str):
 		else:
 			scmessage='Unable to validate'
 	
-	return render_template('hotel.html', title=title, hotel=thisHotel, form=form, scmessage=scmessage)
+	return render_template('booking.html', title=title, hotel=thisHotel, form=form, scmessage=scmessage)
