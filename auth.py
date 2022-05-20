@@ -3,16 +3,10 @@ from flask_login import login_user, login_required, logout_user, current_user
 from forms import RegForm, LogForm
 from users import User
 
-# auth = Blueprint('auth', __name__)
-# @auth.route('/')
-# @auth.route('/login')
-# def login():
-# 	return 'hello'
-
 auth = Blueprint('auth',__name__)
 
 @auth.route('/')
-@auth.route('/login', methods=['POST'])
+@auth.route('/login', methods=['POST','GET'])
 def login():
 	title='Login'
 	errmessage = ''
@@ -47,28 +41,28 @@ def login():
 
 
 
-# @auth.route('/register', methods=['POST'])
-# def registerform():
-# 	title='Register'
-# 	errmessage = ''
-# 	scmessage = ''
-# 	form = RegForm()
-# 	# if user is already logged in, redirect them to the packages page
-# 	if current_user.is_authenticated:
-# 		return redirect(url_for('package.packagepage'))
+@auth.route('/register', methods=['POST','GET'])
+def registerform():
+	title='Register'
+	errmessage = ''
+	scmessage = ''
+	form = RegForm()
+	# if user is already logged in, redirect them to the packages page
+	if current_user.is_authenticated:
+		return redirect(url_for('package.packagepage'))
 		
-# 	if request.method == 'POST':
-# 		if form.validate():
-# 			is_existingUser = User.objects(email=form.email.data).first()
-# 			if is_existingUser is None:
-# 				email = form.email.data
-# 				password = form.password.data
-# 				name = form.name.data
-# 				user = User(email=email, password=password, name=name).save()
-# 				scmessage='Registration successful!'
-# 			else:
-# 				errmessage='User already exists'
+	if request.method == 'POST':
+		if form.validate():
+			is_existingUser = User.objects(email=form.email.data).first()
+			if is_existingUser is None:
+				email = form.email.data
+				password = form.password.data
+				name = form.name.data
+				user = User(email=email, password=password, name=name).save()
+				scmessage='Registration successful!'
+			else:
+				errmessage='User already exists'
 				
 		
-# 	return render_template('register.html', title=title, form=form, errmessage=errmessage, scmessage=scmessage)
+	return render_template('register.html', title=title, form=form, errmessage=errmessage, scmessage=scmessage)
 

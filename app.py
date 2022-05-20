@@ -11,9 +11,9 @@ from users import User
 from auth import auth
 app.register_blueprint(auth)
 
-# #link to package page
-# from staycation import package
-# app.register_blueprint(package)
+#link to package page
+from staycation import package
+app.register_blueprint(package)
 
 # # link to individual hotel pages
 # from book import book
