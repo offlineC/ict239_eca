@@ -1,0 +1,29 @@
+{% from '__render_field.html' import temp_input %}
+{% extends 'base.html' %}
+{% block content %}
+<!-- Question 1 -->
+<!-- 1) b) Login view -->
+{#
+validation logic
+The data is passed on to the controller, login.py/register.py (depending on which page you are on), which pushes the data received to the validator code. This validator (forms.py), makes use of WTFlask to validate and check if the data is valid. It returns accordingly the state of the data, if it is valid or invalid, and thus send what string to show when the data that is input in/valid on the frontend.
+#}
+<div class="row">
+    <div class="col-4">
+        <form class="login-form card" method="post" action="/login">
+            <div class="card-header">
+                <h3>Login</h3>
+            </div>
+            <div class="card-body">
+                {{ temp_input(form.email, type="email", placeholder="Enter email", id="email") }}
+                {{ temp_input(form.password, type="password", placeholder="Enter password", id="pwd") }}
+                {{ form.hidden_tag() }}
+                <div class="input-checkbox">
+                    <input type="checkbox" id="remember"><label for="remember">Remember me</label>
+                </div>
+                <div class="text-danger d-block">{{errmessage}}</div>
+                <button class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

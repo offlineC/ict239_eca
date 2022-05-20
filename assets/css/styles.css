@@ -1,0 +1,109 @@
+img{
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.sd-bg {
+    background-image: url('sidebar_background.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+}
+
+.sitename {
+    font-size: 25px;
+    text-align: center;
+    padding: 10px 0;
+    margin: 0 10px;
+    border-bottom: 1px solid #fff;
+}
+
+.sitename img {
+    width: 50px;
+    border-radius: 50%;
+}
+
+nav {
+    color: #fff;
+}
+
+nav li {
+    list-style-type: none;
+    font-size: 25px;
+    padding: 15px 0;
+}
+
+
+a {
+    color: inherit;
+}
+
+nav li span:first-child {
+    margin-right: 10px;
+    display: inline-block;
+    width: 30px;
+}
+
+.leftnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 15%;
+    background-color: aliceblue;
+    height: 100vh;
+}
+
+.topnav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 85%;
+    padding: 10px;
+    z-index: 1;
+    background-color: #fff;
+}
+
+.topnav .sd-bg {
+    background-position: top center;
+    background-size: 100% auto;
+}
+
+main {
+    padding-top: 30px;
+}
+
+.container-inner {
+    padding-left: 15%;
+    padding-top: 80px;
+}
+
+.thb-img {
+    margin-left: -1.25rem;
+    margin-top: -1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+
+.login-form .input-checkbox {
+    margin-top: 1.25rem;
+}
+
+.login-form .input-checkbox input {
+    margin-right: 0.5rem;
+}
+
+.login-form .input-checkbox~div {
+    margin-bottom: 1.25rem;
+}
+
+#logoutbtn {
+    display: none;
+}
+
+.logout-link {
+    font-size: 25px;
+}
+
+.card{
+    margin-bottom: 1rem;
+}

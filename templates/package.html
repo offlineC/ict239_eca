@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- 1) c) ii) -->
+<!-- Display of packages -->
+<!-- Only displays data using mongodb -->
+<div class="row">
+    <!-- Question 2 -->
+    <!-- 2) a) -->
+    <!-- shows only when there is data in the staycation collection -->
+    {% for h in hotels %}
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="thb-img"><img src="{{ h.image_url }}" alt=""></div>
+                <div class="text-cont">
+                    <h3>{{ h.hotel_name }}</h3>
+                    <p>{{ h.description }}</p>
+                </div>
+                <div class="button-cont">
+                    <a href="/hotel/{{ h.id }}" class="btn btn-primary">Book</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

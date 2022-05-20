@@ -1,0 +1,176 @@
+{% set isLoggedIn = current_user.is_authenticated %}
+<html>
+
+<head>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+</head>
+
+<body>
+    <header></header>
+    <!-- Question 1 -->
+    <!-- 1) a) NavBar -->
+    <nav class="leftnav sd-bg">
+        <div class="sitename">Staycation Portal</div>
+        {% if isLoggedIn %}
+        <div class="sitename d-flex align-items-center justify-content-start text-center pl-4"><img class="mr-3" src="{{ url_for('static',filename='admin.jpeg') }}" alt=""><span>{{current_user.name }}</span></div>
+        {% endif %}
+        <!-- 1) c) i) -->
+        <!-- Display of menu items depending on user -->
+        <ul>
+            {% if not(isLoggedIn) %}
+            <li><a href="/login"><span><i class="fa fa-user" aria-hidden="true"></i></span> <span>Login</span></a></li>
+            <li><a href="/register"><span><i class="fa fa-home" aria-hidden="true"></i></span> <span>Register</span></a></li>
+            {% elif isLoggedIn %}
+            <li><a href="/package"><span><i class="fa fa-id-card" aria-hidden="true"></i></span><span>Packages</span></a></li>
+            {# show only when admin is logged in #}
+            {% if current_user.name.lower() == 'admin' %}
+            <li><a href="/trend_chart"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Dashboard</span></a></li>
+            <li><a href="/upload"><span><i class="fa fa-cloud-upload" aria-hidden="true"></i></span><span>Upload</span></a></li>
+            {% endif %}
+            {% endif %}
+        </ul>
+    </nav>
+    <!-- 1) a) SideBar -->
+    <nav class="topnav text-uppercase">
+        <div class="sd-bg d-flex align-items-center justify-content-between p-1">
+            <h1> {{ title }}
+            </h1>
+            {% if isLoggedIn %}
+            <a href="#logoutbtn" class="logout-link"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            {% endif %}
+        </div>
+    </nav>
+    <!-- 1) a) Container -->
+    {# main content container #}
+    <main class="container-fluid">
+        <div class="container-inner">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </main>
+
+    <!-- 1) c) iv) -->
+    <!-- uses another button to trigger the actual button to show the logout options -->
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary " class="d-none" id="logoutbtn" data-toggle="modal" data-target="#exampleModal">
+        Launch demo modal
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Want to leave?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Press logout to leave
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Stay Here</button>
+                    <a href="/logout" class="btn btn-danger">Log out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer></footer>
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    var topnav_height = $('.topnav').outerHeight();
+    $('main').css('padding-top', topnav_height);
+    $('.logout-link').on('click', function() {
+        $('#logoutbtn').click();
+    });
+
+});
+</script>
+
+{# run only in the trend chart page #}
+{% if request.path == '/trend_chart' %}
+<script>
+
+function getRandomColor() { //generates random colours and puts them in string
+    for (var i = 0; i < 3; i++) {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var x = 0; x < 6; x++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+}
+
+var output = JSON.parse('{{ output | tojson | safe }}')
+
+const labels = output['dates'];
+
+var countData = output['hotels'];
+
+var ds = [];
+
+for (i = 0; i < countData.length; i++) {
+    var bgcolor = getRandomColor();
+    var dt = { label: countData[i]['name'], borderColor: bgcolor, backgroundColor:bgcolor };
+    var dd = []
+    var pd = countData[i]['perDay'];
+    ds.push(dt);
+    for (n = 0; n < pd.length; n++) {
+        var k = Object.keys(pd[n])[0];
+        var v = pd[n][k] * countData[i]['price'];
+        var dIn = {
+            x: k,
+            y: v
+        };
+
+        dd.push(dIn);
+    }
+
+    dt['data'] = dd;
+}
+
+console.log(ds)
+
+const data = {
+    labels: labels,
+    datasets: ds
+};
+
+const config = {
+    type: 'line',
+    data: data,
+    options: {
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'day'
+                }
+            }
+        }
+    }
+    
+};
+
+const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+);
+</script>
+{% endif %}
+
+
+</html>

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Question 2 -->
+<!-- 2) b) and c) -->
+<div class="row">
+    <div class="col-4">
+        <form class="card" method="post" action="" enctype="multipart/form-data">
+            <div class="card-header">
+                <h3>Login</h3>
+            </div>
+            <div class="card-body">
+                <p>Upload CSV</p>
+                <div class="input-ddl">
+                    <label for="">with data type of:</label>
+                    <select name="ftype" id="ftype">
+                        <option value="Users">Users</option>
+                        <option value="Staycation">Staycation</option>
+                        <option value="Booking">Booking</option>
+                    </select>
+                </div>
+                <div class="input-upload"><input type="file" name="file" id="file"></div>
+                <button class="btn border-dark">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

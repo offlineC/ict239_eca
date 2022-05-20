@@ -1,0 +1,38 @@
+{% from '__render_field.html' import temp_input %}
+{% extends 'base.html' %}
+{% block content %}
+<!-- Question 1 -->
+<!-- 1) b) Register view -->
+
+<div class="row">
+    <div class="col-4">
+        <form class="login-form card" method="post" action="/register">
+            <div class="card-header">
+                <h3>Register</h3>
+            </div>
+            <div class="card-body">
+                {{ temp_input(form.email, type="email", placeholder="Enter email", id="email") }}
+                {{ temp_input(form.password, type="password", placeholder="Enter password", id="pwd") }}
+                {{ temp_input(form.name, type="name", id="name") }}
+                {{ form.hidden_tag() }}
+                <div class="input-checkbox">
+                    <input type="checkbox" id="remember"><label for="remember">Remember me</label>
+                </div>
+                <div class="text-danger d-block">{{errmessage}}</div>
+                {# <div class="text-success d-block">{{scmessage }}</div> #}
+                <button class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% set isSuccess = scmessage != '' %}
+<script>
+$(function() {
+    var truevar = '{{ isSuccess|safe }}';
+    var isTrueSet = truevar.toLowerCase() === 'true'
+    if (isTrueSet) {
+        alert('{{ scmessage }}')
+    }
+});
+</script>
+{% endblock content %}

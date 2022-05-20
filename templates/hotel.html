@@ -1,0 +1,42 @@
+{% from '__render_field.html' import temp_input %}
+{% extends 'base.html' %}
+{% block content %}
+<!-- 1) c) iii) -->
+<!-- Able to input and store the check in date into mongodb -->
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="thb-img"><img src="{{ hotel.image_url }}" alt=""></div>
+                <div class="text-cont">
+                    <h3>{{ hotel.hotel_name }}</h3>
+                    <p>{{ hotel.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <form class="card" method="post" action="/hotel/{{ hotel.id }}">
+            <div class="card-header">
+                <h3>Select This Offer</h3>
+            </div>
+            <div class="card-body">
+                <h4>Check_in_date</h4>
+                {{ temp_input(form.check_in_date, type="date", id="check_in_date") }}
+                {{ form.hidden_tag() }}
+                <button class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% set isSuccess = scmessage != '' %}
+<script>
+$(function() {
+    var truevar = '{{ isSuccess|safe }}';
+    var isTrueSet = truevar.toLowerCase() === 'true'
+    if (isTrueSet) {
+        alert('{{ scmessage }}')
+    }
+});
+</script>
+{% endblock content %}
