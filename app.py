@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 import os
 # # import db setup
 from app import app
-from users import User
-from staycation import STAYCATION
+from users import *
+from staycation import *
 from book import Booking
 # import csv 
 
@@ -33,10 +33,14 @@ def createStaycations(hotel_name, duration, unit_cost, image_url, description):
 	if not(con):
 		STAYCATION(hotel_name=hotel_name, duration=duration, unit_cost=unit_cost, image_url=image_url, description=description).save()
 
-def createBookings(check_in_date, customer, hotel_name):
-	con = Booking.objects(check_in_date=check_in_date, customer=customer, hotel_name=hotel_name).first()
-	if not(con):
-		Booking(check_in_date=check_in_date, customer=customer, hotel_name=hotel_name).save()
+def createBookings(check_in_date, customer, hname):
+	customer = getUserDataByEmail(customer)
+	package = getHotelDataByHotelName(hname)
+	# no requirements for checking of duplicates
+	# con = Booking.objects(check_in_date=check_in_date, customer=customer, package=package).first()
+	# if not(con):
+	total_cost = package['unit_cost'] * package['duration']
+	Booking(check_in_date=check_in_date, customer=customer, package=package, total_cost=total_cost).save()
 
 @app.route('/upload', methods=['POST','GET'])
 @login_required

@@ -16,6 +16,9 @@ def getUserDataById(id):
 	user = User.objects(id=id).first()
 	return user._data
 
+def getUserDataByEmail(email):
+	user = User.objects(email=email).first()
+	return user._data
 # load user from session
 # user object has been passed into the login_user()
 @login_manager.user_loader
