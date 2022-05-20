@@ -47,4 +47,4 @@ package = Blueprint('package',__name__)
 def packagepage():
 	if request.method == 'GET':
 		hotels = getAllHotels()
-	return render_template('package.html', title='Package', hotels=hotels)
+	return render_template('packages.html', title='Package', hotels=hotels)
