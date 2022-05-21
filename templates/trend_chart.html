@@ -92,7 +92,7 @@ const myChart = new Chart(
 </script>
 {% elif tablename == 'Due Per User' %}
 <script>
-var personval = $('#due_user').val();
+var personval = $('#due_hotel').val();
 var personName = $('[value="' + personval + '"]').attr('personName');
 var output = JSON.parse('{{ output | tojson | safe }}')
 const labels = [];
@@ -100,7 +100,7 @@ var ds = [];
 var bgCol = getRandomColor();
 for (i = 0; i < output.length; i++) {
     labels.push(output[i]['hotel']);
-    ds.push(output[i]['finaltotalcost']);
+    ds.push(output[i]['count']);
 }
 const data = {
     labels: labels,
@@ -131,20 +131,21 @@ const myChart = new Chart(
 </script>
 {% elif tablename == 'Due Per Hotel'%}
 <script>
-var personval = $('#due_user').val();
-var personName = $('[value="' + personval + '"]').attr('personName');
+var hotelval = $('#due_hotel').val();
+var hotelName = $('[value="' + hotelval + '"]').attr('hotelName');
 var output = JSON.parse('{{ output | tojson | safe }}')
+console.log(hotelName)
 const labels = [];
 var ds = [];
 var bgCol = getRandomColor();
 for (i = 0; i < output.length; i++) {
-    labels.push(output[i]['hotel']);
-    ds.push(output[i]['finaltotalcost']);
+    labels.push(output[i]['customername']);
+    ds.push(output[i]['count']);
 }
 const data = {
     labels: labels,
     datasets: [{
-        label: 'Booking Due Per User by ' + personName,
+        label: 'Booking Due Per Hotel by ' + hotelName,
         data: ds,
         backgroundColor: bgCol,
         borderColor: bgCol,

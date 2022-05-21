@@ -70,7 +70,7 @@ def uploadform():
 			ecr = r.split(',')
 
 			if selected == 'users':
-				createUsers(ecr[0], ecr[1], ecr[2])		
+				createUsers(ecr[0], ecr[1], ecr[2].replace('"', '').strip())		
 			elif selected == 'staycation':
 				h = ecr[0].replace('"','')
 				createStaycations(h, ecr[1], ecr[2], ecr[3], ecr[4])

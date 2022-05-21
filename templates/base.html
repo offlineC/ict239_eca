@@ -42,20 +42,31 @@
             <li><a href="/trend_chart"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Total Income</span></a></li>
             <li><a href="/trend_chart/due_per_user"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Due Per User</span></a>
                 {% if users|count > 0 %}
-                    <select name="due_user" id="due_user" style="width: 100%">
-                        <option value="">Select One</option>
-                        {% for u in users %}
-                        {% if thisuser and u.name == thisuser.name %}
-                        <option value="{{u.id}}" selected personName="{{u.name}}">{{u.name}}</option>
+                <select name="due_user" id="due_user" style="width: 100%">
+                    <option value="">Select One</option>
+                    {% for u in users %}
+                    {% if thisuser and u.name == thisuser.name %}
+                    <option value="{{u.id}}" selected personName="{{u.name}}">{{u.name}}</option>
                     {% else %}
-                        <option value="{{u.id}}" personName="{{u.name}}">{{u.name}}</option>
+                    <option value="{{u.id}}" personName="{{u.name}}">{{u.name}}</option>
                     {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </select>
-                </form>
+                    {% endfor %}
+                </select>
+                {% endif %}
             </li>
-            <li><a href="/trend_chart/due_per_hotel"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Due Per Hotel</span></a></li>
+            <li><a href="/trend_chart/due_per_hotel"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Due Per Hotel</span></a>
+                {% if hotels|count > 0 %}
+                <select name="due_hotel" id="due_hotel" style="width: 100%">
+                    <option value="">Select One</option>
+                    {% for u in hotels %}hotel_name
+                    {% if thishotel and u.hotel_name == thishotel.hotel_name %}
+                    <option value="{{u.id}}" selected hotelName="{{u.hotel_name}}">{{u.hotel_name}}</option>
+                    {% else %}
+                    <option value="{{u.id}}" hotelName="{{u.hotel_name}}">{{u.hotel_name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                {% endif %}</li>
             <li><a href="/packages"><span><i class="fa fa-id-card" aria-hidden="true"></i></span><span>Back To Package</span></a></li>
             {% endif %}
         </ul>
@@ -119,7 +130,11 @@ $(function() {
 
     $('#due_user').on('change', function() {
         var thisval = $(this).val();
-        window.location.href = '/trend_chart/due_per_user/'+thisval;
+        window.location.href = '/trend_chart/due_per_user/' + thisval;
+    });
+    $('#due_hotel').on('change', function() {
+        var thisval = $(this).val();
+        window.location.href = '/trend_chart/due_per_hotel/' + thisval;
     });
 
 });
