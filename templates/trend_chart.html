@@ -5,7 +5,7 @@
     <div class="col-11">
         <div class="card">
             <div class="card-header">
-                <h3>Package Incoming</h3>
+                <h3>Total Income</h3>
             </div>
             <div class="card-body"><canvas id="myChart" width="100%"></canvas></div>
         </div>
@@ -13,3 +13,82 @@
 </div>
 
 {% endblock content %}
+
+{% block jscontent %}
+    <script>
+    
+    function getRandomColor() { //generates random colours and puts them in string
+        for (var i = 0; i < 3; i++) {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var x = 0; x < 6; x++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    
+    }
+    
+    var output = JSON.parse('{{ output | tojson | safe }}')
+    var ds = []
+    const labels = []
+    
+    const hlabels = [];
+    for (n=0;n<output.length;n++){
+        var hotelname = output[n]['hotel'];
+        var date = output[n]['date']
+        if(hlabels.indexOf(hotelname) == -1){
+            hlabels.push(hotelname);
+            ds.push({label:hotelname});
+        } 
+        if(labels.indexOf(date) == -1){
+            labels.push(date)
+        }
+    }
+    
+    
+    function getDatePrice(hotelname){
+        var arr = [];
+        for (m=0;m<output.length;m++){
+            var thisel = output[m]['hotel']
+            if(thisel == hotelname){
+                arr.push({x:output[m]['date'], y:output[m]['finalprice']});
+            }
+        }
+        return arr;
+    }
+    
+    for(hs=0;hs<ds.length; hs++){
+        var bgcolor = getRandomColor();
+        ds[hs]['data'] = getDatePrice(ds[hs]['label'])
+        ds[hs]['backgroundColor'] = bgcolor;
+        ds[hs]['borderColor'] = bgcolor;
+    }
+    
+    const data = {
+        labels: labels,
+        datasets: ds
+    };
+    
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                }
+            }
+        }
+        
+    };
+    
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+    </script>
+{% endblock jscontent %}

@@ -19,11 +19,8 @@ def trend_chartpage():
 	
 	if request.method == 'GET':
 		output = getAllBookings()
-		# checkindates = [ opd.check_in_date for opd in output ]
-		# totalcosts = [ optc.total_cost for optc in output ]
-		# hotelnames = [ oph.package.hotel_name for oph in output ]
 		totalcostsperdate = [ {'date': str(v['check_in_date']), 'finalprice': (countOcc(v['package']['hotel_name'], v['check_in_date']) * v['total_cost']) , 'hotel': v['package']['hotel_name'] } for i,v in enumerate(output) ]
 		finaltcpd = [dict(t) for t in {tuple(d.items()) for d in totalcostsperdate}]
 		finaltcpd = sorted(finaltcpd, key = lambda n : n['date'])
 		print(finaltcpd)
-	return render_template('trend_chart.html', title='Package Chart', output = finaltcpd)
+	return render_template('trend_chart.html', title='Dashboard', output = finaltcpd)

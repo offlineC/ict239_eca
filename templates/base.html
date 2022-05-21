@@ -88,95 +88,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script type="text/javascript">
-$(function() {
-    var topnav_height = $('.topnav').outerHeight();
-    $('main').css('padding-top', topnav_height);
-    $('.logout-link').on('click', function() {
-        $('#logoutbtn').click();
-    });
-
-});
-</script>
-
-{# run only in the trend chart page #}
-{% if request.path == '/trend_chart' %}
-<script>
-
-function getRandomColor() { //generates random colours and puts them in string
-    for (var i = 0; i < 3; i++) {
-        var letters = '0123456789ABCDEF'.split('');
-        var color = '#';
-        for (var x = 0; x < 6; x++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
-
-}
-
-var output = JSON.parse('{{ output | tojson | safe }}')
-var ds = []
-const labels = []
-
-const hlabels = [];
-for (n=0;n<output.length;n++){
-    var hotelname = output[n]['hotel'];
-    var date = output[n]['date']
-    if(hlabels.indexOf(hotelname) == -1){
-        hlabels.push(hotelname);
-        ds.push({label:hotelname});
-    } 
-    if(labels.indexOf(date) == -1){
-        labels.push(date)
-    }
-}
-
-
-function getDatePrice(hotelname){
-    var arr = [];
-    for (m=0;m<output.length;m++){
-        var thisel = output[m]['hotel']
-        if(thisel == hotelname){
-            arr.push({x:output[m]['date'], y:output[m]['finalprice']});
-        }
-    }
-    return arr;
-}
-
-for(hs=0;hs<ds.length; hs++){
-    var bgcolor = getRandomColor();
-    ds[hs]['data'] = getDatePrice(ds[hs]['label'])
-    ds[hs]['backgroundColor'] = bgcolor;
-    ds[hs]['borderColor'] = bgcolor;
-}
-
-const data = {
-    labels: labels,
-    datasets: ds
-};
-
-const config = {
-    type: 'line',
-    data: data,
-    options: {
-        scales: {
-            x: {
-                type: 'time',
-                time: {
-                    unit: 'day'
-                }
-            }
-        }
-    }
+    $(function() {
+        var topnav_height = $('.topnav').outerHeight();
+        $('main').css('padding-top', topnav_height);
+        $('.logout-link').on('click', function() {
+            $('#logoutbtn').click();
+        });
     
-};
+    });
+    </script>
+{% block jscontent %}
 
-const myChart = new Chart(
-    document.getElementById('myChart'),
-    config
-);
-</script>
-{% endif %}
-
+{% endblock jscontent %}
 
 </html>
