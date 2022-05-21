@@ -28,37 +28,6 @@ def getAllBookings():
 	bookings = Booking.objects()
 	return bookings
 
-def dataOutput():
-	data = getAllBookings()
-	startDate = dt(2022,1,17)
-	endDate = dt(2022,3,12)
-	hnames = []
-	inData = {}
-	# inData['dates'] = [(startDate+timedelta(x)).date() for x in range((endDate-startDate).days)]
-	inData['hotels'] = []
-
-	for h in data:
-		hotelname = h.package.hotel_name
-		if not( hotelname in hnames):
-			hnames.append(hotelname)
-
-	for i in hnames:
-		thisHotel = getHotelByHotelName(i)
-		dates = [str(n['check_in_date']) for n in data if n['hotel_name'] == i]
-		dates.sort()
-		price = thisHotel['unit_cost']*thisHotel['duration']	
-		inData['hotels'].append({'name':i, 'price':price, 'dates': dates, 'perDay':[]})
-
-	
-	for d in inData['hotels']:
-		for ds in d['dates']:
-			dcount = d['dates'].count(ds)
-			dayself = dt.strptime(ds, '%Y-%m-%d')
-			dateDic = {str(ds):dcount}
-			if not(dateDic in d['perDay']):
-				d['perDay'].append(dateDic)
-
-	return inData
 
 book = Blueprint('book',__name__)
 

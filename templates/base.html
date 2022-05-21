@@ -115,34 +115,34 @@ function getRandomColor() { //generates random colours and puts them in string
 }
 
 var output = JSON.parse('{{ output | tojson | safe }}')
+console.log(output);
+// const labels = output['dates'];
 
-const labels = output['dates'];
+// var countData = output['hotels'];
 
-var countData = output['hotels'];
+// var ds = [];
 
-var ds = [];
+// for (i = 0; i < countData.length; i++) {
+//     var bgcolor = getRandomColor();
+//     var dt = { label: countData[i]['name'], borderColor: bgcolor, backgroundColor:bgcolor };
+//     var dd = []
+//     var pd = countData[i]['perDay'];
+//     ds.push(dt);
+//     for (n = 0; n < pd.length; n++) {
+//         var k = Object.keys(pd[n])[0];
+//         var v = pd[n][k] * countData[i]['price'];
+//         var dIn = {
+//             x: k,
+//             y: v
+//         };
 
-for (i = 0; i < countData.length; i++) {
-    var bgcolor = getRandomColor();
-    var dt = { label: countData[i]['name'], borderColor: bgcolor, backgroundColor:bgcolor };
-    var dd = []
-    var pd = countData[i]['perDay'];
-    ds.push(dt);
-    for (n = 0; n < pd.length; n++) {
-        var k = Object.keys(pd[n])[0];
-        var v = pd[n][k] * countData[i]['price'];
-        var dIn = {
-            x: k,
-            y: v
-        };
+//         dd.push(dIn);
+//     }
 
-        dd.push(dIn);
-    }
+//     dt['data'] = dd;
+// }
 
-    dt['data'] = dd;
-}
-
-console.log(ds)
+// console.log(ds)
 
 const data = {
     labels: labels,
