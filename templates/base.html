@@ -22,12 +22,11 @@
         {% endif %}
         <!-- 1) c) i) -->
         <!-- Display of menu items depending on user -->
-        <ul>
+        <ul class="pr-4">
             {% if not(isLoggedIn) %}
             <li><a href="/login"><span><i class="fa fa-user" aria-hidden="true"></i></span> <span>Login</span></a></li>
             <li><a href="/register"><span><i class="fa fa-home" aria-hidden="true"></i></span> <span>Register</span></a></li>
             {% elif isLoggedIn %}
-            
             {% if not(isDashboard) %}
             <li><a href="/packages"><span><i class="fa fa-id-card" aria-hidden="true"></i></span><span>Packages</span></a></li>
             {% endif %}
@@ -41,7 +40,18 @@
             {% endif %}
             {% if isDashboard %}
             <li><a href="/trend_chart"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Total Income</span></a></li>
-            <li><a href="/trend_chart/due_per_user"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Due Per User</span></a></li>
+            <li><a href="/trend_chart/due_per_user"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Due Per User</span></a>
+                {% if users|count > 0 %}
+                    <select name="due_user" id="due_user" style="width: 100%">
+                        <option value="">Select One</option>
+                        {% for u in users %}
+                        {% set isUserSelected = 'selected' if thisuser.name != '' else ''%}    
+                        <option value="{{u.id}}" {{isUserSelected}} personName="{{u.name}}">{{u.name}}</option>
+                        {% endfor %}
+                        {% endif %}
+                    </select>
+                </form>
+            </li>
             <li><a href="/trend_chart/due_per_hotel"><span><i class="fa fa-area-chart" aria-hidden="true"></i></span><span>Due Per Hotel</span></a></li>
             <li><a href="/packages"><span><i class="fa fa-id-card" aria-hidden="true"></i></span><span>Back To Package</span></a></li>
             {% endif %}
@@ -65,7 +75,6 @@
             {% endblock content %}
         </div>
     </main>
-
     <!-- 1) c) iv) -->
     <!-- uses another button to trigger the actual button to show the logout options -->
     <!-- Button trigger modal -->
@@ -92,24 +101,27 @@
             </div>
         </div>
     </div>
-
     <footer></footer>
 </body>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script type="text/javascript">
-    $(function() {
-        var topnav_height = $('.topnav').outerHeight();
-        $('main').css('padding-top', topnav_height);
-        $('.logout-link').on('click', function() {
-            $('#logoutbtn').click();
-        });
-    
+$(function() {
+    var topnav_height = $('.topnav').outerHeight();
+    $('main').css('padding-top', topnav_height);
+    $('.logout-link').on('click', function() {
+        $('#logoutbtn').click();
     });
-    </script>
-{% block jscontent %}
 
+    $('#due_user').on('change', function() {
+        var thisval = $(this).val();
+        window.location.href = '/trend_chart/due_per_user/'+thisval;
+    });
+
+});
+</script>
+{% block jscontent %}
 {% endblock jscontent %}
 
 </html>

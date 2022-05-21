@@ -12,6 +12,9 @@ class User(UserMixin, db.Document):
 	# Creates a name field/column in the collection of appUsers data type as string
 	name = db.StringField()
 
+def getAllUsers():
+	return User.objects()
+
 def getUserById(id):
 	user = User.objects(id=id).first()
 	return user
