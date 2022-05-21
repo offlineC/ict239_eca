@@ -68,5 +68,5 @@ def dueperhotelload(id:str):
 	userBookings = [ a for a in output if a['package']['hotel_name'] == thishotel['hotel_name']]
 	outputBooking = [{'customername':v['customer']['name'], 'count':calTotal(v['customer']['name'], userBookings)} for i,v in enumerate(userBookings)]
 	outputBooking = removeDupeDic(outputBooking)
-	print(outputBooking)
+
 	return render_template('trend_chart.html', title='Dashboard', output = outputBooking, isDashboard=True, tablename='Due Per Hotel',hotels=getAllHotels(), thishotel=thishotel)
