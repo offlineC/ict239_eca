@@ -38,14 +38,14 @@ def dueperuser():
 @login_required
 def dueperuserload(id:str):
 	def calTotal(hotelname,arr):
-		getCost = [ b['total_cost'] for b in arr if b['package']['hotel_name'] == hotelname]
-		return sum(getCost)
-		
+		getCost = [ b for b in arr if b['package']['hotel_name'] == hotelname]
+		return len(getCost)
+
 	thisuser = getUserById(id)
 	output = getAllBookings()
 	userBookings = [ a for a in output if a['customer']['name'] == thisuser['name']]
 	outputBooking = [{'hotel':v['package']['hotel_name'], 'finaltotalcost':calTotal(v['package']['hotel_name'], userBookings)} for i,v in enumerate(userBookings)]
-	print(outputBooking)
+	outputBooking = removeDupeDic(outputBooking)
 	return render_template('trend_chart.html', title='Dashboard', output = outputBooking, isDashboard=True, tablename='Due Per User', users=getAllUsers(), thisuser=thisuser)
 
 @tc.route('/trend_chart/due_per_hotel', methods=['GET'])

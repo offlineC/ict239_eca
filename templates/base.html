@@ -45,8 +45,11 @@
                     <select name="due_user" id="due_user" style="width: 100%">
                         <option value="">Select One</option>
                         {% for u in users %}
-                        {% set isUserSelected = 'selected' if thisuser.name != '' else ''%}    
-                        <option value="{{u.id}}" {{isUserSelected}} personName="{{u.name}}">{{u.name}}</option>
+                        {% if thisuser and u.name == thisuser.name %}
+                        <option value="{{u.id}}" selected personName="{{u.name}}">{{u.name}}</option>
+                    {% else %}
+                        <option value="{{u.id}}" personName="{{u.name}}">{{u.name}}</option>
+                    {% endif %}
                         {% endfor %}
                         {% endif %}
                     </select>

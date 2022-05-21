@@ -94,30 +94,21 @@ const myChart = new Chart(
 <script>
 var personval = $('#due_user').val();
 var personName = $('[value="' + personval + '"]').attr('personName');
-const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+var output = JSON.parse('{{ output | tojson | safe }}')
+const labels = [];
+var ds = [];
+var bgCol = getRandomColor();
+for (i = 0; i < output.length; i++) {
+    labels.push(output[i]['hotel']);
+    ds.push(output[i]['finaltotalcost']);
+}
 const data = {
     labels: labels,
     datasets: [{
         label: 'Booking Due Per User by ' + personName,
-        data: [65, 59, 80, 81, 56, 55, 40],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
-        ],
-        borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(201, 203, 207)'
-        ],
+        data: ds,
+        backgroundColor: bgCol,
+        borderColor: bgCol,
         borderWidth: 1
     }]
 };
@@ -139,5 +130,43 @@ const myChart = new Chart(
 );
 </script>
 {% elif tablename == 'Due Per Hotel'%}
+<script>
+var personval = $('#due_user').val();
+var personName = $('[value="' + personval + '"]').attr('personName');
+var output = JSON.parse('{{ output | tojson | safe }}')
+const labels = [];
+var ds = [];
+var bgCol = getRandomColor();
+for (i = 0; i < output.length; i++) {
+    labels.push(output[i]['hotel']);
+    ds.push(output[i]['finaltotalcost']);
+}
+const data = {
+    labels: labels,
+    datasets: [{
+        label: 'Booking Due Per User by ' + personName,
+        data: ds,
+        backgroundColor: bgCol,
+        borderColor: bgCol,
+        borderWidth: 1
+    }]
+};
+
+const config = {
+    type: 'bar',
+    data: data,
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    },
+};
+const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+);
+</script>
 {% endif %}
 {% endblock jscontent %}
