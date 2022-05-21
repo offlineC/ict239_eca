@@ -12,13 +12,17 @@ class User(UserMixin, db.Document):
 	# Creates a name field/column in the collection of appUsers data type as string
 	name = db.StringField()
 
+def getUserById(id):
+	user = User.objects(id=id).first()
+	return user
+
 def getUserDataById(id):
 	user = User.objects(id=id).first()
 	return user._data
 
-def getUserDataByEmail(email):
+def getUserByEmail(email):
 	user = User.objects(email=email).first()
-	return user._data
+	return user
 # load user from session
 # user object has been passed into the login_user()
 @login_manager.user_loader

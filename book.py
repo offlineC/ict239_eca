@@ -38,27 +38,25 @@ def dataOutput():
 	inData['hotels'] = []
 
 	for h in data:
-		print(h.package)
-		# if not( h in hnames):
-		# 	hone = h
-		# 	hnames.append(hone)
+		hotelname = h.package.hotel_name
+		if not( hotelname in hnames):
+			hnames.append(hotelname)
 
-	# for i in hnames:
-	# 	thisHotel = getHotelByHotelName(i)
-	# 	dates = [str(n['check_in_date']) for n in data if n['hotel_name'] == i]
-	# 	dates.sort()
-	# 	price = thisHotel['unit_cost']*thisHotel['duration']
-	# 	inData['hotels'].append({'name':i, 'price':price, 'dates': dates, 'perDay':[]})
+	for i in hnames:
+		thisHotel = getHotelByHotelName(i)
+		dates = [str(n['check_in_date']) for n in data if n['hotel_name'] == i]
+		dates.sort()
+		price = thisHotel['unit_cost']*thisHotel['duration']	
+		inData['hotels'].append({'name':i, 'price':price, 'dates': dates, 'perDay':[]})
 
 	
-	# for d in inData['hotels']:
-	# 	for ds in d['dates']:
-	# 		dcount = d['dates'].count(ds)
-	# 		dayself = dt.strptime(ds, '%Y-%m-%d')
-	# 		dateDic = {str(ds):dcount}
-	# 		if not(dateDic in d['perDay']):
-	# 			d['perDay'].append(dateDic)
-
+	for d in inData['hotels']:
+		for ds in d['dates']:
+			dcount = d['dates'].count(ds)
+			dayself = dt.strptime(ds, '%Y-%m-%d')
+			dateDic = {str(ds):dcount}
+			if not(dateDic in d['perDay']):
+				d['perDay'].append(dateDic)
 
 	return inData
 
@@ -68,9 +66,8 @@ book = Blueprint('book',__name__)
 @login_required
 def hotelform(id:str):
 	thisHotel = getHotelById(id)
-	customer = getUserDataById(current_user.id)
-	package = getHotelDataById(id)
-	total_cost = package['unit_cost'] * package['duration']
+	customer = getUserById(current_user.id)
+	package = thisHotel
 	form = bookForm()
 	scmessage = ''
 	title = thisHotel.hotel_name
@@ -80,8 +77,10 @@ def hotelform(id:str):
 		scmessage = 'Booking failed'
 		if form.validate():
 			cid = form.check_in_date.data
-			booking = Booking(check_in_date=cid, customer=customer, package=package, total_cost = total_cost).save()
-			scmessage = 'Booking successful' + str(cid) + str(customer) +str(package)
+			booking = Booking(check_in_date=cid, customer=customer, package=package)
+			booking.calculate_total_cost()
+			booking.save()
+			scmessage = 'Booking successful' #+ str(cid) + str(customer) +str(package)
 		else:
 			scmessage='Unable to validate'
 	

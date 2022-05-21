@@ -34,13 +34,14 @@ def createStaycations(hotel_name, duration, unit_cost, image_url, description):
 		STAYCATION(hotel_name=hotel_name, duration=duration, unit_cost=unit_cost, image_url=image_url, description=description).save()
 
 def createBookings(check_in_date, customer, hname):
-	customer = getUserDataByEmail(customer)
-	package = getHotelDataByHotelName(hname)
+	customer = getUserByEmail(customer)
+	package = getHotelByHotelName(hname)
 	# no requirements for checking of duplicates
 	# con = Booking.objects(check_in_date=check_in_date, customer=customer, package=package).first()
 	# if not(con):
-	total_cost = package['unit_cost'] * package['duration']
-	Booking(check_in_date=check_in_date, customer=customer, package=package, total_cost=total_cost).save()
+	booking = Booking(check_in_date=check_in_date, customer=customer, package=package)
+	booking.calculate_total_cost()
+	booking.save()
 
 @app.route('/upload', methods=['POST','GET'])
 @login_required

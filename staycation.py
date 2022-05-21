@@ -34,10 +34,11 @@ def getHotelDataByHotelName(hotel_name):
 	return hotel._data
 
 def getHotelByHotelName(hname):
-	hotel = STAYCATION.objects()
-	for h in hotel:
-		if h['hotel_name'] == hname:
-			return h
+	hotel = STAYCATION.objects(hotel_name=hname).first()
+	return hotel
+	# for h in hotel:
+	# 	if h['hotel_name'] == hname:
+	# 		return h
 
 package = Blueprint('package',__name__)
 
