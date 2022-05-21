@@ -33,13 +33,11 @@ def login():
 				errmessage='User account does not exist'
 	return render_template('login.html', title=title, form=form, errmessage=errmessage)
 
-# @auth.route('/logout', methods=['GET'])
-# @login_required
-# def logout():
-# 	logout_user()
-# 	return redirect(url_for('auth.login'))
-
-
+@auth.route('/logout', methods=['GET'])
+@login_required
+def logout():
+	logout_user()
+	return redirect(url_for('auth.login'))
 
 @auth.route('/register', methods=['POST','GET'])
 def registerform():

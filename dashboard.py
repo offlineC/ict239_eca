@@ -6,6 +6,8 @@ from book import *
 tc = Blueprint('trend_chart', __name__)
 
 @tc.route('/trend_chart', methods=['GET'])
+# set page to be accessble after login only
+@login_required
 def trend_chartpage():
 	def countOcc(hotelname, date):
 		op = getAllBookings()

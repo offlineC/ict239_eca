@@ -22,7 +22,8 @@ def create_app():
 	app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
 	login_manager = LoginManager()
 	login_manager.init_app(app)
-	login_manager.login_view = 'login'
+	# correction to routing, needs to reference auth.login as endpoint when user is not logged in
+	login_manager.login_view = 'auth.login'
 	
 	return app, db, login_manager
 
