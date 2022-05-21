@@ -22,5 +22,18 @@ def trend_chartpage():
 		totalcostsperdate = [ {'date': str(v['check_in_date']), 'finalprice': (countOcc(v['package']['hotel_name'], v['check_in_date']) * v['total_cost']) , 'hotel': v['package']['hotel_name'] } for i,v in enumerate(output) ]
 		finaltcpd = [dict(t) for t in {tuple(d.items()) for d in totalcostsperdate}]
 		finaltcpd = sorted(finaltcpd, key = lambda n : n['date'])
-		print(finaltcpd)
-	return render_template('trend_chart.html', title='Dashboard', output = finaltcpd)
+	return render_template('trend_chart.html', title='Dashboard', output = finaltcpd, isDashboard=True, tablename='Total Income')
+
+@tc.route('/trend_chart/due_per_user', methods=['GET'])
+# set page to be accessble after login only
+@login_required
+def dueperuser():
+	
+	return render_template('trend_chart.html', title='Dashboard', output = None, isDashboard=True, tablename='Due Per User')
+
+@tc.route('/trend_chart/due_per_hotel', methods=['GET'])
+# set page to be accessble after login only
+@login_required
+def dueperhotel():
+	
+	return render_template('trend_chart.html', title='Dashboard', output = None, isDashboard=True, tablename='Due Per Hotel')
