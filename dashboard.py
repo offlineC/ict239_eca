@@ -6,6 +6,8 @@ from users import *
 
 tc = Blueprint('trend_chart', __name__)
 
+def removeDupeDic(thisdictionary):
+	return [dict(t) for t in {tuple(d.items()) for d in thisdictionary}]
 @tc.route('/trend_chart', methods=['GET'])
 # set page to be accessble after login only
 @login_required
@@ -21,7 +23,7 @@ def trend_chartpage():
 	if request.method == 'GET':
 		output = getAllBookings()
 		totalcostsperdate = [ {'date': str(v['check_in_date']), 'finalprice': (countOcc(v['package']['hotel_name'], v['check_in_date']) * v['total_cost']) , 'hotel': v['package']['hotel_name'] } for i,v in enumerate(output) ]
-		finaltcpd = [dict(t) for t in {tuple(d.items()) for d in totalcostsperdate}]
+		finaltcpd = removeDupeDic(totalcostsperdate)
 		finaltcpd = sorted(finaltcpd, key = lambda n : n['date'])
 	return render_template('trend_chart.html', title='Dashboard', output = finaltcpd, isDashboard=True, tablename='Total Income')
 
@@ -35,9 +37,16 @@ def dueperuser():
 # set page to be accessble after login only
 @login_required
 def dueperuserload(id:str):
+	def calTotal(hotelname,arr):
+		getCost = [ b['total_cost'] for b in arr if b['package']['hotel_name'] == hotelname]
+		return sum(getCost)
+		
 	thisuser = getUserById(id)
-	print(thisuser.name)
-	return render_template('trend_chart.html', title='Dashboard', output = None, isDashboard=True, tablename='Due Per User', users=getAllUsers(), thisuser=thisuser)
+	output = getAllBookings()
+	userBookings = [ a for a in output if a['customer']['name'] == thisuser['name']]
+	outputBooking = [{'hotel':v['package']['hotel_name'], 'finaltotalcost':calTotal(v['package']['hotel_name'], userBookings)} for i,v in enumerate(userBookings)]
+	print(outputBooking)
+	return render_template('trend_chart.html', title='Dashboard', output = outputBooking, isDashboard=True, tablename='Due Per User', users=getAllUsers(), thisuser=thisuser)
 
 @tc.route('/trend_chart/due_per_hotel', methods=['GET'])
 # set page to be accessble after login only
