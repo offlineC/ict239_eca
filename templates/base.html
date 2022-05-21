@@ -115,34 +115,42 @@ function getRandomColor() { //generates random colours and puts them in string
 }
 
 var output = JSON.parse('{{ output | tojson | safe }}')
-console.log(output);
-// const labels = output['dates'];
+var ds = []
+const labels = []
 
-// var countData = output['hotels'];
+const hlabels = [];
+for (n=0;n<output.length;n++){
+    var hotelname = output[n]['hotel'];
+    var date = output[n]['date']
+    if(hlabels.indexOf(hotelname) == -1){
+        hlabels.push(hotelname);
+        ds.push({label:hotelname});
+    } 
+    if(labels.indexOf(date) == -1){
+        labels.push(date)
+    }
+}
 
-// var ds = [];
 
-// for (i = 0; i < countData.length; i++) {
-//     var bgcolor = getRandomColor();
-//     var dt = { label: countData[i]['name'], borderColor: bgcolor, backgroundColor:bgcolor };
-//     var dd = []
-//     var pd = countData[i]['perDay'];
-//     ds.push(dt);
-//     for (n = 0; n < pd.length; n++) {
-//         var k = Object.keys(pd[n])[0];
-//         var v = pd[n][k] * countData[i]['price'];
-//         var dIn = {
-//             x: k,
-//             y: v
-//         };
+function getDatePrice(hotelname){
+    var arr = [];
+    for (m=0;m<output.length;m++){
+        var thisel = output[m]['hotel']
+        if(thisel == hotelname){
+            arr.push({x:output[m]['date'], y:output[m]['finalprice']});
+        }
+    }
+    return arr;
+}
 
-//         dd.push(dIn);
-//     }
+for(hs=0;hs<ds.length; hs++){
+    var bgcolor = getRandomColor();
+    ds[hs]['data'] = getDatePrice(ds[hs]['label'])
+    ds[hs]['backgroundColor'] = bgcolor;
+    ds[hs]['borderColor'] = bgcolor;
+}
 
-//     dt['data'] = dd;
-// }
-
-// console.log(ds)
+console.log(ds);
 
 const data = {
     labels: labels,
