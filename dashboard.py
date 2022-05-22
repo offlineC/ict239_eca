@@ -8,6 +8,12 @@ tc = Blueprint('trend_chart', __name__)
 
 def removeDupeDic(thisdictionary):
 	return [dict(t) for t in {tuple(d.items()) for d in thisdictionary}]
+
+''' 
+Question 3 a)
+This page and file trend_chart.html answers 3) a)
+'''
+
 @tc.route('/trend_chart', methods=['GET'])
 # set page to be accessble after login only
 @login_required
@@ -27,6 +33,7 @@ def trend_chartpage():
 		finaltcpd = sorted(finaltcpd, key = lambda n : n['date'])
 	return render_template('trend_chart.html', title='Dashboard', output = finaltcpd, isDashboard=True, tablename='Total Income')
 
+# Answers question 3) b)
 @tc.route('/trend_chart/due_per_user/', methods=['GET'])
 # set page to be accessble after login only
 @login_required
@@ -48,6 +55,7 @@ def dueperuserload(id:str):
 	outputBooking = removeDupeDic(outputBooking)
 	return render_template('trend_chart.html', title='Dashboard', output = outputBooking, isDashboard=True, tablename='Due Per User', users=getAllUsers(), thisuser=thisuser)
 
+# Answer question 3) c)
 @tc.route('/trend_chart/due_per_hotel', methods=['GET'])
 # set page to be accessble after login only
 @login_required

@@ -9,6 +9,7 @@ from staycation import *
 from book import Booking
 # import csv 
 
+# This entire page with the Blueprint and MongoEngine library is for question 1) c) 
 
 # link to login/registration page
 from auth import auth
@@ -43,6 +44,49 @@ def createBookings(check_in_date, customer, hname):
 	booking.calculate_total_cost()
 	booking.save()
 
+''' 
+1) b) i) and ii)
+For pseudo code reference
+set app.route with view '/upload', using methods POST and GET for request
+set login required
+create function for when page loads for this view
+	set title of page
+	set string of selected option as empty
+	set m of message to display as empty
+
+	if page's request method is POST
+		set selected value as the form's input file upload value
+		convert lettercase of selected string to lower
+
+		set file path as empty
+		set rows as None to instantiate globallay in the function
+
+		set uplf as the files request to retrieve all the files that has been uploaded through the file input
+		check first if file input is empty and if true
+			set the file path in fpath 
+			and then save the path in uplf
+
+			now open the file that is uploaded as thisfile
+				set content to be to read the lines of thisfile
+			set header to read the first row
+			set rows to read the all rows except the first row
+
+		for each row in rows
+			set ecr to split by ',' as the delimiter
+
+			check if selected is set to 'users'
+				then create users object to be stored into the database
+				(function is presented above)
+			check if seelct is set to 'staycation'
+				then create staycation object to be stored into the database
+				(function is presented above)
+			check if selected if 'booking'
+				then create booking object to be stored into the database
+				(function is presented above)
+
+		When all actions are complete, return to rendering page html template using 'upload.html' and including the title variable into the page through the parameter title
+
+'''
 @app.route('/upload', methods=['POST','GET'])
 @login_required
 def uploadform():
