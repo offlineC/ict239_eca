@@ -1,4 +1,4 @@
-{% from '__render_field.html' import temp_input %}
+{% from '__render_field.html' import render_field %}
 {% extends 'base.html' %}
 {% block content %}
 <!-- Question 1 -->
@@ -14,8 +14,8 @@ The data is passed on to the controller, login.py/register.py (depending on whic
                 <h3>Login</h3>
             </div>
             <div class="card-body">
-                {{ temp_input(form.email, type="email", placeholder="Enter email", id="email") }}
-                {{ temp_input(form.password, type="password", placeholder="Enter password", id="pwd") }}
+                {{ render_field(form.email, type="email", placeholder="Enter email", id="email") }}
+                {{ render_field(form.password, type="password", placeholder="Enter password", id="pwd") }}
                 {{ form.hidden_tag() }}
                 <div class="input-checkbox">
                     <input type="checkbox" id="remember"><label for="remember">Remember me</label>

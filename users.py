@@ -1,4 +1,4 @@
-from __init__ import db
+from app import db
 from flask_login import UserMixin
 
 class User(UserMixin, db.Document):
@@ -11,3 +11,9 @@ class User(UserMixin, db.Document):
 	password = db.StringField()
 	# Creates a name field/column in the collection of appUsers data type as string
 	name = db.StringField()
+
+# load user from session
+# user object has been passed into the login_user()
+@login_manager.user_loader
+def loaduser(user_id):
+	return User.objects(pk=user_id).first()
